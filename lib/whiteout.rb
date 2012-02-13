@@ -1,6 +1,9 @@
 require "whiteout/version"
 require "optparse"
 
+# TODO handle directories more appropriately
+# TODO add man page
+
 module Whiteout
   def self.execute(*args)
     opts = OptionParser.new do |opts|
