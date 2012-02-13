@@ -9,8 +9,13 @@ describe Whiteout do
     Whiteout.clean("bar\t\t\n").should eql("bar\n")
   end
 
-  it "leaves non-trailing whitespace in tact" do
+  it "leaves non-trailing whitespace intact" do
     baz = "\t\tbaz  baz\n"
+    Whiteout.clean(baz).should eql(baz)
+  end
+
+  it "leaves consecutive newlines intact" do
+    baz = "foo\n\nbar\b"
     Whiteout.clean(baz).should eql(baz)
   end
 
