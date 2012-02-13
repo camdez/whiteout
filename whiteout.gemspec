@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Cameron Desautels"]
   s.email       = ["camdez@gmail.com"]
   s.homepage    = "http://github.com/camdez/#{s.name}"
+  s.license     = "MIT"
   s.summary     = %q{Remove trailing whitespace from files.}
   s.description = <<desc
   Removes trailing whitespace from standard input or from named files.
