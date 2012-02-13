@@ -23,10 +23,6 @@ module Whiteout
   end
 
   def self.clean(str)
-    out = ""
-    str.each_line do |line|
-      out << line.gsub(/\s+$/, '') << "\n"
-    end
-    out
+    str.gsub(/\s+$/, '') << "\n"
   end
 end
