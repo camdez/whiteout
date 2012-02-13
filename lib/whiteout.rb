@@ -41,6 +41,6 @@ module Whiteout
   end
 
   def self.clean(str)
-    str.gsub(/\s+$/, '') << "\n"
+    str.gsub(/[ \t]+$/, '')
   end
 end
