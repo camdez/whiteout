@@ -16,30 +16,26 @@ module Whiteout
 
     begin
       opts.parse!
+    rescue OptionParser::InvalidOption => e
+      abort "#{e}\n#{opts}"
+    end
 
-      if !$stdin.tty? || args[0] == '-'
-        puts self.clean($stdin.read)
-      else
-        if args.empty?
-          puts opts
-          exit
-        end
+    if !$stdin.tty? || args[0] == '-'
+      puts self.clean($stdin.read)
+    else
+      abort opts.to_s if args.empty?
 
-        args.each do |file|
-          abort "Can't find #{file}" unless File.exists?(file)
-          abort "#{file} is directory" if File.directory?(file)
+      args.each do |file|
+        abort "Can't find #{file}" unless File.exists?(file)
+        abort "#{file} is directory" if File.directory?(file)
 
-          contents = File.read(file)
+        contents = File.read(file)
 
-          # TODO consider writing to a temporary file and moving into place
-          File.open(file, 'w') do |f|
-            f.write(self.clean(contents))
-          end
+        # TODO consider writing to a temporary file and moving into place
+        File.open(file, 'w') do |f|
+          f.write(self.clean(contents))
         end
       end
-    rescue OptionParser::InvalidOption => e
-      warn e
-      puts opts
     end
   end
 
