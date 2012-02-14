@@ -15,7 +15,7 @@ module Whiteout
     end
 
     begin
-      opts.parse!
+      opts.parse!(args)
     rescue OptionParser::InvalidOption => e
       abort "#{e}\n#{opts}"
     end
