@@ -1,7 +1,6 @@
 require "whiteout/version"
 require "optparse"
 
-# TODO handle directories more appropriately
 # TODO add man page
 
 module Whiteout
@@ -28,6 +27,7 @@ module Whiteout
 
         args.each do |file|
           abort "Can't find #{file}" unless File.exists?(file)
+          abort "#{file} is directory" if File.directory?(file)
 
           contents = File.read(file)
 
