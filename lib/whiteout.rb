@@ -1,5 +1,7 @@
 require "whiteout/version"
 require "optparse"
+require "tempfile"
+require "fileutils"
 
 module Whiteout
   def self.execute(*args)
@@ -30,11 +32,15 @@ module Whiteout
       abort opts.to_s if args.empty?
 
       self.input_list(args, recurse).each do |file|
-        contents = File.read(file)
+        File.open(file) do |infile|
+          outfile = Tempfile.new('whiteout')
 
-        # TODO consider writing to a temporary file and moving into place
-        File.open(file, 'w') do |f|
-          f.write(self.clean(contents))
+          infile.each do |line|
+            outfile.write(self.clean(line))
+          end
+
+          outfile.close
+          FileUtils.mv(outfile, infile)
         end
       end
     end
