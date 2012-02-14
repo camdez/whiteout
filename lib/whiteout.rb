@@ -6,6 +6,7 @@ require "fileutils"
 module Whiteout
   def self.execute(*args)
     recurse = false
+    verbose = false
 
     opts = OptionParser.new do |opts|
       opts.banner = "Usage: whiteout file1 [...]"
@@ -17,6 +18,10 @@ module Whiteout
 
       opts.on('-r', '--recursive', 'Clean all files under each directory, recursively') do
         recurse = true
+      end
+
+      opts.on('-v', '--verbose', 'Be verbose, naming files as they are being processed') do
+        verbose = true
       end
     end
 
@@ -33,6 +38,8 @@ module Whiteout
 
       self.input_list(args, recurse).each do |file|
         File.open(file) do |infile|
+          puts file if verbose
+
           outfile = Tempfile.new('whiteout')
 
           infile.each do |line|
