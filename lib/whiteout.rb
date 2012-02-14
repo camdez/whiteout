@@ -5,12 +5,18 @@ require "optparse"
 
 module Whiteout
   def self.execute(*args)
+    recurse = false
+
     opts = OptionParser.new do |opts|
       opts.banner = "Usage: whiteout file1 [...]"
 
-      opts.on('-h', '--help', 'Display this screen' ) do
+      opts.on('-h', '--help', 'Display this screen') do
         puts opts
         exit
+      end
+
+      opts.on('-r', '--recursive', 'Clean all files under each directory, recursively') do
+        recurse = true
       end
     end
 
@@ -25,10 +31,7 @@ module Whiteout
     else
       abort opts.to_s if args.empty?
 
-      args.each do |file|
-        abort "Can't find #{file}" unless File.exists?(file)
-        abort "#{file} is directory" if File.directory?(file)
-
+      self.input_list(args, recurse).each do |file|
         contents = File.read(file)
 
         # TODO consider writing to a temporary file and moving into place
@@ -41,5 +44,28 @@ module Whiteout
 
   def self.clean(str)
     str.gsub(/[ \t]+$/, '')
+  end
+
+  def self.input_list(file_args, recurse)
+    to_process = file_args
+    ret = []
+
+    to_process.each do |file|
+      abort "Can't find #{file}" unless File.exists?(file)
+
+      if File.directory?(file)
+        if recurse
+          Dir[file + "/**/*"].each do |subfile|
+            to_process << subfile
+          end
+        else
+          abort "#{file} is a directory; not processing without -r option"
+        end
+      else
+        ret << file
+      end
+    end
+
+    ret
   end
 end
