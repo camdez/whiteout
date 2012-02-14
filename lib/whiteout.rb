@@ -1,8 +1,6 @@
 require "whiteout/version"
 require "optparse"
 
-# TODO add man page
-
 module Whiteout
   def self.execute(*args)
     recurse = false
