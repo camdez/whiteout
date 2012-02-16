@@ -1,0 +1,53 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "WHITEOUT" "1" "February 2012" "" "Whiteout Manual"
+.
+.SH "NAME"
+\fBwhiteout\fR \- remove trailing whitespace from files
+.
+.SH "SYNOPSIS"
+\fBwhiteout\fR [\fB\-hrv\fR] [\fBfile\fR \fB\.\.\.\fR]
+.
+.SH "DESCRIPTION"
+\fBwhiteout\fR strips the named \fIFILE\fRs (or standard input if no files are named, or the file name \fB\-\fR is given) of trailing whitespace characters\.
+.
+.SH "OPTIONS"
+.
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print help\.
+.
+.TP
+\fB\-r\fR, \fB\-\-recursive\fR
+Process all files under each directory, recursively\.
+.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Be verbose, naming files as they are being processed\.
+.
+.SH "EXAMPLES"
+.
+.nf
+
+$ whiteout foo\.c
+$ whiteout \-rv foo
+foo/bar\.c
+foo/baz\.c
+$ whiteout \-
+int foo() {
+  return 42;
+}
+^D
+$ whiteout `git ls\-files \-c`
+.
+.fi
+.
+.SH "BUGS"
+\fIhttp://github\.com/camdez/whiteout/issues\fR
+.
+.SH "AUTHOR"
+Cameron Desautels <\fIcamdez@gmail\.com\fR>
+.
+.SH "SEE ALSO"
+\fIhttp://github\.com/camdez/whiteout\fR
