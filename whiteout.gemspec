@@ -22,5 +22,6 @@ desc
   s.require_paths = ["lib"]
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "ronn"
   # s.add_runtime_dependency "rest-client"
 end

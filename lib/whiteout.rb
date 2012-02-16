@@ -16,7 +16,7 @@ module Whiteout
         exit
       end
 
-      opts.on('-r', '--recursive', 'Clean all files under each directory, recursively') do
+      opts.on('-r', '--recursive', 'Process all files under each directory, recursively') do
         recurse = true
       end
 

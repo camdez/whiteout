@@ -1,0 +1,48 @@
+whiteout(1) -- remove trailing whitespace from files
+====================================================
+
+## SYNOPSIS
+
+`whiteout` [`-hrv`] [`file` `...`]
+
+## DESCRIPTION
+
+`whiteout` strips the named <FILE>s (or standard input if
+no files are named, or the file name `-` is given) of trailing
+whitespace characters.
+
+## OPTIONS
+
+  * `-h`, `--help`:
+  Print help.
+
+  * `-r`, `--recursive`:
+  Process all files under each directory, recursively.
+
+  * `-v`, `--verbose`:
+  Be verbose, naming files as they are being processed.
+
+## EXAMPLES
+
+    $ whiteout foo.c
+    $ whiteout -rv foo
+    foo/bar.c
+    foo/baz.c
+    $ whiteout -
+    int foo() {
+      return 42;  
+    }
+    ^D
+    $ whiteout `git ls-files -c`
+
+## BUGS
+
+<http://github.com/camdez/whiteout/issues>
+
+## AUTHOR
+
+Cameron Desautels <<camdez@gmail.com>>
+
+## SEE ALSO
+
+<http://github.com/camdez/whiteout>
