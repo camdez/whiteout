@@ -1,6 +1,8 @@
 Whiteout
 ========
 
+[![Build Status](https://secure.travis-ci.org/camdez/whiteout.png?branch=master)](http://travis-ci.org/camdez/whiteout)
+
 Remove annoying trailing whitespace from files.
 
 **Warning:** this is alpha-quality code written with the assistance of
