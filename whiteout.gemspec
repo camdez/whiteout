@@ -23,5 +23,5 @@ desc
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "ronn"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency "rake"
 end
