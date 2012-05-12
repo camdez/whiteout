@@ -46,6 +46,7 @@ module Whiteout
             outfile.write(self.clean(line))
           end
 
+          outfile.chmod(infile.stat.mode)
           outfile.close
           FileUtils.mv(outfile, infile)
         end
