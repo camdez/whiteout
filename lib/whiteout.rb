@@ -37,20 +37,24 @@ module Whiteout
       abort opts.to_s if args.empty?
 
       self.input_list(args, recurse).each do |file|
-        File.open(file) do |infile|
-          puts file if verbose
-
-          outfile = Tempfile.new('whiteout')
-
-          infile.each do |line|
-            outfile.write(self.clean(line))
-          end
-
-          outfile.chmod(infile.stat.mode)
-          outfile.close
-          FileUtils.mv(outfile, infile)
-        end
+        self.clean_file(file, verbose)
       end
+    end
+  end
+
+  def self.clean_file(file, verbose = false)
+    File.open(file) do |infile|
+      puts file if verbose
+
+      outfile = Tempfile.new('whiteout')
+
+      infile.each do |line|
+        outfile.write(self.clean(line))
+      end
+
+      outfile.close
+      outfile.chmod(infile.stat.mode)
+      FileUtils.mv(outfile, infile)
     end
   end
 
