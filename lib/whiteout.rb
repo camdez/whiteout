@@ -42,24 +42,45 @@ module Whiteout
     end
   end
 
+  class InvalidByteSequenceError < StandardError
+    attr_reader :original
+
+    def initialize(msg, original = nil)
+      super(msg)
+      @original = original
+    end
+  end
+
   def self.clean_file(file, verbose = false)
     File.open(file) do |infile|
       puts file if verbose
 
       outfile = Tempfile.new('whiteout')
 
-      infile.each do |line|
-        outfile.write(self.clean(line))
+      begin
+        infile.each do |line|
+          outfile.write(self.clean(line))
+        end
+      rescue InvalidByteSequenceError
+        warn "#{file} is a binary file; not processing"
+        outfile.close
+        outfile.unlink
+      else
+        outfile.chmod(infile.stat.mode)
+        outfile.close
+        FileUtils.mv(outfile, infile)
       end
-
-      outfile.close
-      outfile.chmod(infile.stat.mode)
-      FileUtils.mv(outfile, infile)
     end
   end
 
   def self.clean(str)
     str.gsub(/[ \t]+$/, '')
+  rescue ArgumentError => e
+    if e.message == "invalid byte sequence in UTF-8"
+      raise InvalidByteSequenceError.new(e.message, e)
+    else
+      raise e
+    end
   end
 
   def self.input_list(file_args, recurse)
